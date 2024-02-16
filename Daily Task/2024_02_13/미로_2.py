@@ -9,9 +9,7 @@ for test_case in range(1,T+1):
     start_end = []
     for i in range(n):
         for j in range(n):
-            if maze[i][j] == '3':
-                start_end.append([i,j])
-            elif maze[i][j] == '2':
+            if maze[i][j] == '2':
                 start_end.append([i,j])
                 
     di = [1,-1,0,0]
@@ -26,7 +24,7 @@ for test_case in range(1,T+1):
                 if maze[r+di[k]][c+dj[k]] == '0':
                     stack.append((r+di[k],c+dj[k]))
                     maze[r+di[k]][c+dj[k]] = '1'
-                elif maze[r+di[k]][c+dj[k]] == '2':
+                elif maze[r+di[k]][c+dj[k]] == '3':
                     result = 1
                     stack = []
                     break
