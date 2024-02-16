@@ -29,7 +29,7 @@ for test_case in range(1,T+1):
             if 0 <= r+di[k] < n and 0 <= c+dj[k] < n:
                 if maze[r+di[k]][c+dj[k]] == '0':
                     queue.append((r+di[k],c+dj[k],cnt+1))   # 해당 위치에서의 거리 추가
-                                                            # 그러나 count 변수를 직접 증가시키면 안됨
+                                                            # 그러나 해당위치에서 탐색 가능한 위치 조사가 끝나지 않았으므로 count 변수를 직접 증가시키면 안됨
                     maze[r+di[k]][c+dj[k]] = '1'
                     back = False
                 elif maze[r+di[k]][c+dj[k]] == '3':
