@@ -34,8 +34,8 @@ for test_case in range(1,T+1):
                     back = False
                 elif maze[r+di[k]][c+dj[k]] == '3':
                     escape = True
-                    queue = [] # while문 탈출
-                    break # for문 탈출
+                    queue = [] # while문 탈출을 위해서 queue를 비우기
+                    break # for문 탈출을 위해서
     
     if not escape: # 도착할 수 없다면 cnt = 0
         cnt = 0
