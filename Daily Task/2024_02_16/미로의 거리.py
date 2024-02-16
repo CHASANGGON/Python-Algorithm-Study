@@ -18,13 +18,13 @@ for test_case in range(1,T+1):
     escape = False
     while queue:
         back = True
-        r,c,cnt = queue.pop(0)  # 큐를 사용해야함 -> DFS를 위해서
-                                # 스택을 사용하면 -> BFS가 됨 -> visited의 의미로 maze에 1을 넣어서 길을 지워버림
+        r,c,cnt = queue.pop(0)  # 큐를 사용해야함 -> BFS를 위해서
+                                # 스택을 사용하면 -> DFS가 됨 -> visited의 의미로 maze에 1을 넣어서 길을 지워버림
                                 # 그 결과 정상적인 길도 지워질 가능성이 존재하기에, 최단거리를 보장할 수 없음
 
-                                # 만약 BFS를 하면서 가능한 모든 경우의 수를 고려한 다음 최단 거리를 찾으려고 할 수도 있지만
+                                # 만약 DFS를 하면서 가능한 모든 경우의 수를 고려한 다음 최단 거리를 찾으려고 할 수도 있지만
                                 # 대부분의 사람들이 visited의 의미로 1을 체크하면서 왔던 길을 지웠고, 그렇게 해야만 뒤로 가지 않고 앞으로 진행 가능
-                                # 그렇기에 visited를 사용하면서 BFS로 최단 거리를 찾는 경우는 불가능
+                                # 그렇기에 visited를 사용하면서 DFS로 최단 거리를 찾는 경우는 불가능
         for k in range(4):
             if 0 <= r+di[k] < n and 0 <= c+dj[k] < n:
                 if maze[r+di[k]][c+dj[k]] == '0':
