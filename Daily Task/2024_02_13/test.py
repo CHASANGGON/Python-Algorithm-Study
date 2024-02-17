@@ -1,3 +1,8 @@
-lst = list(range(4))
+n = 5
+values = [float(input()) for _ in range(n)]
 
-print(lst[1:-1])
+num_dic = {}
+for i in range(n):
+    num_dic[chr(65+i)] = values[i]
+    
+print(num_dic)
