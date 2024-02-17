@@ -1,7 +1,4 @@
-x, n = list(map(int, input().split()))
-
-
-
-elif x <= 0:
-    print("0")
-
+def hi():
+    print('hi')
+   
+hi() 
