@@ -5,7 +5,6 @@ parenthesis = input().rstrip()
 
 result = 0
 stack = []
-score_stack = []
 score_chart = {'(':2, ')':2, '[':3, ']':3}
 for p in parenthesis:
     

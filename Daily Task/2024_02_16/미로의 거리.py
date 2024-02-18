@@ -17,7 +17,6 @@ for test_case in range(1,T+1):
     cnt = 0
     escape = False
     while queue:
-        back = True
         r,c,cnt = queue.pop(0)  # 큐를 사용해야함 -> BFS를 위해서
                                 # 스택을 사용하면 -> DFS가 됨 -> visited의 의미로 maze에 1을 넣어서 길을 지워버림
                                 # 그 결과 정상적인 길도 지워질 가능성이 존재하기에, 최단거리를 보장할 수 없음
@@ -31,7 +30,6 @@ for test_case in range(1,T+1):
                     queue.append((r+di[k],c+dj[k],cnt+1))   # 해당 위치에서의 거리 추가
                                                             # 그러나 해당위치에서 탐색 가능한 위치 조사가 끝나지 않았으므로 count 변수를 직접 증가시키면 안됨
                     maze[r+di[k]][c+dj[k]] = '1'
-                    back = False
                 elif maze[r+di[k]][c+dj[k]] == '3':
                     escape = True
                     queue = [] # while문 탈출을 위해서 queue를 비우기
