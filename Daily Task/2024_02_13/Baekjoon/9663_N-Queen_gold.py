@@ -26,7 +26,6 @@ def N_Queen(n, row_lst):
             row_lst[n] = i
             N_Queen(n+1, row_lst)
             row_lst[n] = -1
-            # 복구
             
 
 
