@@ -1,3 +1,2 @@
-lst = ['(0/0)','0/0','0/(0)']
-lst.sort()
-print(lst)
+if 1 == True:
+    print(2)
