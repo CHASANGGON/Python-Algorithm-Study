@@ -5,7 +5,7 @@ def f(i, k, s):
         if s < min_s:
             min_s = s
     
-    # 가지치지(backtracking)
+    # 가지치기(backtracking)
     elif s >= min_s:
         return
 
