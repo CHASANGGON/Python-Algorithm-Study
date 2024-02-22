@@ -2,7 +2,7 @@ def post_traversal_calculate(now_v): # 후위 표기식 계산
     if now_v:
         post_traversal_calculate(left[now_v])
         post_traversal_calculate(right[now_v])
-        
+
         if value[now_v].isdigit():
             stack.append(int(value[now_v]))
         else:
@@ -16,7 +16,7 @@ def post_traversal_calculate(now_v): # 후위 표기식 계산
                 stack.append(a+b)
             else:
                 stack.append(a-b)
-                
+   
 t = 10
 
 for tc in range(1,1+t):
