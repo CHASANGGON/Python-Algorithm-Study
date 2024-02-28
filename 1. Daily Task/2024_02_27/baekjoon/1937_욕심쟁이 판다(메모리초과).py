@@ -7,7 +7,7 @@
 def out_of_range(ni,nj,n):
     return 0 <= ni < n and 0 <= nj < n
 
-def dfs(i,j,n):
+def dfs(i,j):
     global max_distance
     # 거리 정보가 확인되지 않으면(방문하지 않았으면) 실행
     if distance[i][j]:
@@ -19,13 +19,13 @@ def dfs(i,j,n):
             ni = i + di[k]
             nj = j + dj[k]
             if out_of_range(ni,nj,n) and bamboo[i][j] < bamboo[ni][nj]:
-                distance[i][j] = max(dfs(ni,nj,n)+1,distance[i][j])
-                max_distance = max(distance[i][j], max_distance)
+                distance[i][j] = max(dfs(ni,nj)+1,distance[i][j])
+                # max_distance = max(distance[i][j], max_distance)
     return distance[i][j]
     
     
 import sys
-sys.setrecursionlimit(10**8)
+sys.setrecursionlimit(300000)
 input = sys.stdin.readline
 
 n = int(input())
@@ -34,13 +34,13 @@ bamboo = [list(map(int,input().split())) for _ in range(n)]
 
 # 방문하지 않은 곳은 0
 distance = [[0]*n for _ in range(n)]
-max_distance = 0
+max_distance = 1
 di = [1,-1,0,0]
 dj = [0,0,1,-1]
 for i in range(n):
     for j in range(n):
         # 방문하지 않은 경우만 실행
         if not distance[i][j]:
-            dfs(i,j,n)
-        
-print(max_distance)
+            dfs(i,j)
+
+print(max(sum(distance, [])))

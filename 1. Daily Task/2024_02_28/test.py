@@ -1,16 +1,13 @@
-from collections import deque
+def f(i,s):
+    if i == 2:
+        print(*p)
 
-a = deque()
+    else:
+        for j in range(i,3):
+            p[i], p[j] = p[j], p[i]
+            f(i+1,s)
+            p[i], p[j] = p[j], p[i]
 
-a.append(1)
-a.append(2)
-a.append(3)
-a.append(4)
-
-print(a[-1])
-
-
-lst = [1,2,3,4,5]
-
-if 2 in lst[1:3]:
-    print(2222)
+p = [1,2,3]
+n = 2
+f(0,0)
