@@ -1,13 +1,11 @@
-def f(i,s):
-    if i == 2:
-        print(*p)
+import collections
+import sys
 
-    else:
-        for j in range(i,3):
-            p[i], p[j] = p[j], p[i]
-            f(i+1,s)
-            p[i], p[j] = p[j], p[i]
-
-p = [1,2,3]
-n = 2
-f(0,0)
+word = sys.stdin.readline().rstrip()
+check_word = collections.Counter(word)
+cnt = 0
+result = ''
+mid = ''
+print(check_word)
+a = list(check_word.items())
+print(a)
