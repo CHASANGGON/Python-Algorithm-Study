@@ -1,6 +1,16 @@
-lst = [1]
+from collections import deque
 
-for i in range(len(lst)):
-    lst[i] = lst[i]**2
+q = deque()
 
-print(lst)
+q.append(1)
+q.append(1)
+
+q.append(1)
+
+nq = q
+
+print(nq)
+
+nq.clear()
+
+print(nq)
