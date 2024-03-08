@@ -1,23 +1,23 @@
 import sys
 input = sys.stdin.readline
 
-N, S = map(int,input().split())
-arr = list(map(int,input().split()))
+N, S = map(int, input().split())
+arr = list(map(int, input().split()))
 
+left, right = 0, 0
 length = N + 1
-L, R = 0, 0
 s = 0
 
-while 1:
+while True:
     if s >= S:
-        s -= arr[L]
-        L += 1
-        length = min(length, R - L + 1)
-    elif R == N:
+        length = min(length, right - left)
+        s -= arr[left]
+        left += 1
+    elif right == N:
         break
     else:
-        s += arr[R]
-        R += 1
+        s += arr[right]
+        right += 1
 
 if length == N + 1:
     print(0)
