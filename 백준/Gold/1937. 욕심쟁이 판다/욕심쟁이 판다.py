@@ -20,8 +20,7 @@ def dfs(i,j):
             nj = j + dj[k]
             if out_of_range(ni,nj,n) and bamboo[i][j] < bamboo[ni][nj]:
                 distance[i][j] = max(dfs(ni,nj)+1,distance[i][j])
-                # max_distance = max(distance[i][j], max_distance)
-    return distance[i][j]
+        return distance[i][j]
     
     
 import sys
