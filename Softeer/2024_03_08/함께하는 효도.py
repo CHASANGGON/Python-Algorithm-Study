@@ -13,33 +13,25 @@
 def in_range(ni,nj):
     return 0 <= ni < N and 0 <= nj < N
 
-# 좌표, 경로, 수확량, 탐색 깊이
-def P(i, j, S, D):
-    global max_path
-    global max_S
+# 좌표, visited, 탐색 깊이
+def dfs(i, j, V, D):
     # 기저 조건
     if D == 3:
-        if S > max_S:
-            max_S = S # 최대 수확량 갱신
-            max_path = copy.deepcopy(path)  # 최대 수확량 경로 갱신
-            
+        return arr[i][j]
+    
     else:
-        # 방문 체크
-        V[i][j] = 0
-        
-        # 네 방향 완전 탐색 -> 중복 허용 순열
+        # 방문 표시 -> 재탐색 방지
+        V[i][j] = 0 
         for k in range(4):
             ni = i + di[k]
             nj = j + dj[k]
-            # 인덱스 검사
             if in_range(ni,nj) and V[ni][nj]:
-                path.append([ni,nj]) # 경로 추가 후 재귀 호출
-                P(ni, nj, S+arr[ni][nj], D+1)
-                path.pop() # 복구
-        # 방문 복구
+                arr[i][j] = max(arr[i][j], dfs(ni,nj,V, D+1)+arr[i][j])
+        # 복구
         V[i][j] = 1
+        return arr[i][j]
 
-import copy
+
 import sys
 input = sys.stdin.readline
 
@@ -56,16 +48,8 @@ V = [[1]*N for _ in range(N)]
 di = [1,-1,0,0]
 dj = [0,0,1,-1]
 s = 0
+
 for i,j in m_lst:
-    i -= 1
-    j -= 1
-    max_S = 0
-    path = [[i,j]]
-    max_path = []
-    # 좌표, 경로, 수확량, 탐색 깊이
-    P(i, j, arr[i][j], 0)
-    for i, j in max_path:
-        s += arr[i][j]
-        arr[i][j] = 0
-        
+    s += dfs(i, j, V, 0)
+    
 print(s)

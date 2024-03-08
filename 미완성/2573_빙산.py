@@ -2,24 +2,6 @@ from collections import deque
 import sys
 import copy
 
-# 값 변화 검사
-
-
-def change_check(arr, melt_arr):
-    for i in range(N):
-        for j in range(M):
-            # 빙산이 존재하는데, 녹은 값이 0이라면()
-            if arr[i][j] and not melt_arr[i][j]:
-                for k in range(4):
-                    ni = i + di[k]
-                    nj = j + dj[k]
-
-                    # 인덱스 검사
-                    if in_range(ni, nj) and arr[ni][nj] == 0:
-                        # 두 덩어리 이상으로 분리된 거
-                        return False
-    return True
-
 # 인덱스 검사
 
 
@@ -27,8 +9,6 @@ def in_range(ni, nj):
     return 0 <= ni < N and 0 <= nj < M
 
 #  빙산 시작 위치 탐색
-
-
 def find_iceberg():
     global si, sj
     for i in range(N):
@@ -86,19 +66,7 @@ while find_iceberg():
                     cnt += 1
 
         melt_arr[i][j] = cnt
+    print(melt_arr)
+    print(arr)
+    break
 
-    # 값 변화 체크
-    # 모든 값이 변화가 있으면 True
-    # 한 개라도 변화가 없으면 False
-    result = change_check(arr, melt_arr)
-
-    # 한 개라도 변화가 없는 경우 -> 두 덩어리 이상으로 분리된 상황 -> day 출력
-    if result == False:
-        break
-
-    # 아무 일도 일어나지 않았다면 melt값을 반영
-    for i in range(N):
-        for j in range(M):
-            arr[i][j] = max(0, arr[i][j] - melt_arr[i][j])
-
-print(day-1)
