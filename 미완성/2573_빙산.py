@@ -5,7 +5,7 @@ import copy
 # 인덱스 검사
 
 
-def in_range(ni, nj):
+def in_range(ni, nj):   
     return 0 <= ni < N and 0 <= nj < M
 
 #  빙산 시작 위치 탐색
