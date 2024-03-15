@@ -5,9 +5,9 @@ n, k = map(int,input().split())
 
 arr = [0]*n
 for i in range(n):
-    arr[i] = int(input())
+    arr[i] = int(input().rstrip())
 
-l, r = 1, min(arr)
+l, r = 1, max(arr)
 ans = 0
 while l <= r:
     c = (l+r)//2
