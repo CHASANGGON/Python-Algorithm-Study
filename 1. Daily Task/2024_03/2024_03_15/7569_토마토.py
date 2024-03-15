@@ -26,4 +26,4 @@ for h in range(H):
                     nj = j + dj[k] 
                     if in_range(nh,ni,nj) and arr[nh][ni][nj] == 0:
                         arr[nh][ni][nj] = 1
-            elif 
+            
