@@ -2,17 +2,14 @@ t = int(input())
 
 for tc in range(1,t+1):
     charge = list(map(int, input().split())) # 1일, 1달, 3달, 1년
-    days_of_use = list(map(int, input().split()))
+    days_of_use = [0] + list(map(int, input().split()))
     
-    dp = [0]*12
-    dp[11] = charge[3]
-    
-    for i in range(12):
-        if days_of_use[i]:
-            dp[i] = min(dp[i] + charge[0]*days_of_use[i], dp[i] + charge[1], dp[i] + charge[2])
-            if i <= 8:
-                dp[i + 3] += charge[2]
-            if i <= 9:
-                dp[i + 2] += charge[2]
-            
-    print(f'#{tc} {dp[11]} ')
+    dp = [0]*13
+      
+    for i in range(1,13):
+        dp[i] = min(dp[i-1] + days_of_use[i] * charge[0], dp[i-1] + charge[1]) # 1일, 1달
+        
+        if i >= 3:
+            dp[i] = min(dp[i], dp[i-3] + charge[2])
+        
+    print(f'#{tc} {min(dp[12], charge[3])} ')
