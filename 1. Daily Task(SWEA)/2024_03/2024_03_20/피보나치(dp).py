@@ -11,5 +11,7 @@ def fibo(n):
     # 연산한 결과값을 배열에 저장하고, 재사용하겠다!
     memo[n] = fibo(n-1) + fibo(n-2)
     return memo[n]
-n = 10
-print(fibo(10))
+
+n = int(input())
+print(fibo(15))
+
