@@ -47,6 +47,3 @@ def dfs(start):
     
 visited = [False] * (V + 1)
 dfs(1) # 시작 노드에서 출발
-
-
-def bf
