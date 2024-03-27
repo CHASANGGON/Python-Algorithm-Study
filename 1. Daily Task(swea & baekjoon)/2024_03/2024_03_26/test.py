@@ -1,5 +1,2 @@
-from collections import deque
-q = deque([[1,2]])
-
-print(q)
-print(q.pop())
+import datetime
+print(str(datetime.datetime.now())[:10])
