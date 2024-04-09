@@ -17,6 +17,7 @@ for i in range(n):
         if arr[i][j] == 0:
             blank.append([i,j])
 
+
 max_safe = 0
 
 # 벽 세우기

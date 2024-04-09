@@ -36,7 +36,6 @@ for order in orders:
         x += 1
         dice[1], dice[2], dice[3], dice[4], dice[5], dice[6] = dice[2], dice[6], dice[3], dice[4], dice[1], dice[5]
     
-    
     if arr[x][y] == 0: # 칸의 수가 0이면, 주사위 바닥면 -> 칸
         arr[x][y] = dice[6]
     else: # 칸의 수가 0이 아니면, 칸의 수 -> 주사위 바닥면, 칸의 수는 0
