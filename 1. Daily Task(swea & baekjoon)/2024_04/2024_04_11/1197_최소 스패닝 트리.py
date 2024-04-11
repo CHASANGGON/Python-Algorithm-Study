@@ -23,7 +23,6 @@ def mst():
             continue
         min_w += w
         union(a,b)
-            
 
     print(min_w)
     
