@@ -2,9 +2,10 @@
     "java.debug.settings.onBuildFailureProceed": true,
     "java.project.sourcePaths": [
         "1. Daily Task(swea & baekjoon)/2024_04/2024_04_19/26069_붙임성 좋은 총총이",
+        "1. Daily Task(swea & baekjoon)/2024_04/2024_04_19/1330_두 수 비교하기 retry",
         "1. Daily Task(swea & baekjoon)/2024_04/2024_04_18/2742_기찍 N",
         "1. Daily Task(swea & baekjoon)/2024_04/2024_04_18/25192_인사성 밝은 곰곰이",
         "1. Daily Task(swea & baekjoon)/2024_04/2024_04_17",
-        "1. Daily Task(swea & baekjoon)/2024_04/2024_04_19/1330_두 수 비교하기 retry"
+        "1. Daily Task(swea & baekjoon)/2024_04/2024_04_20/9498_시험 성적"
     ]
 }
