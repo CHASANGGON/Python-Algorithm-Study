@@ -30,4 +30,3 @@ while dq:
         break
 
 print(ans)
-
