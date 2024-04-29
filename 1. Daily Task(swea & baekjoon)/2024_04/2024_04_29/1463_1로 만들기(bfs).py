@@ -7,6 +7,7 @@ n = int(input())
 # 1을 뺀다.
 lst = [0] * (n+1)
 lst[n] = 0
+
 dq = deque()
 dq.append(n)
 
