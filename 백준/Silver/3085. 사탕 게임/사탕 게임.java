@@ -16,16 +16,16 @@ public class Main {
         }
 
         // 델타 정의
-        int[] dx = {1, -1, 0, 0};
-        int[] dy = {0, 0, 1, -1};
+        int[] dx = {1, 0};
+        int[] dy = {0, 1};
 
-        // 변수 정의
-        int maxLength = 1;
+        // 초기 최장 길이 계산
+        int maxLength = calculateLength(arr, n);
 
         // 델타 탐색
         for (int i = 0; i < n; i++) {
             for (int j = 0; j < n; j++) {
-                for (int k = 0; k < 4; k++) {
+                for (int k = 0; k < 2; k++) {
                     // 새로운 좌표 생성
                     int ni = i + dx[k];
                     int nj = j + dy[k];
@@ -37,7 +37,6 @@ public class Main {
                         arr[ni][nj] = temp;
 
                         // 최장 길이 탐색 함수
-                        maxLength = Math.max(calculateLength(arr, n), maxLength);
                         maxLength = Math.max(calculateLength(arr, n), maxLength);
 
                         // 복구
