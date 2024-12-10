@@ -62,8 +62,8 @@ public class Main {
         int ans = 0;
 
         // 왼쪽 -> 최고 높이
-        int beforeX = arr[0][0];
-        int beforeY = arr[0][1];
+        int beforeX = 0;
+        int beforeY = 0;
         int lX = 0;
         for (lX = 0; lX <= maxLX; lX++) {
             int x = arr[lX][0];
@@ -79,8 +79,8 @@ public class Main {
 //        System.out.printf("왼쪽 합: %d\n", ans);
 
         // 오른쪽 -> 최고 높이
-        beforeX = arr[n - 1][0];
-        beforeY = arr[n - 1][1];
+        beforeX = 0;
+        beforeY = 0;
         int rX = 0;
         for (rX = n - 1; rX >= maxRX; rX--) {
             int x = arr[rX][0];
