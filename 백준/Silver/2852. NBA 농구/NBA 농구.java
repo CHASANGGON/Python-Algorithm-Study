@@ -3,6 +3,7 @@ import java.io.*;
 public class Main {
     public static void main(String[] args) throws IOException {
         BufferedReader br = new BufferedReader(new InputStreamReader(System.in));
+        final int GAME_TIME = 48 * 60;
         int n = Integer.parseInt(br.readLine());
 
         // 농구 경기는 정확히 48분동안 진행
@@ -32,18 +33,18 @@ public class Main {
 
             teamScore[team]++;
 
-            if (i == n -1) {
+            if (i == n - 1) {
                 if (teamScore[0] > teamScore[1]) {
-                    teamLeadTime[0] += 48 * 60 - nowTime;
+                    teamLeadTime[0] += GAME_TIME - nowTime;
                 } else if (teamScore[0] < teamScore[1]) {
-                    teamLeadTime[1] += 48 * 60 - nowTime;
+                    teamLeadTime[1] += GAME_TIME - nowTime;
                 }
             }
 
 
             beforeTime = nowTime;
         }
-        System.out.printf("%02d:%02d\n", teamLeadTime[0]/60, teamLeadTime[0]%60);
-        System.out.printf("%02d:%02d\n", teamLeadTime[1]/60, teamLeadTime[1]%60);
+        System.out.printf("%02d:%02d\n", teamLeadTime[0] / 60, teamLeadTime[0] % 60);
+        System.out.printf("%02d:%02d\n", teamLeadTime[1] / 60, teamLeadTime[1] % 60);
     }
 }
