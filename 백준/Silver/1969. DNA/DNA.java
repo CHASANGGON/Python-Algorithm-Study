@@ -7,40 +7,55 @@ public class Main {
 
         // 입력 받기
         String[] NM = br.readLine().split(" ");
-        int N = Integer.parseInt(NM[0]);
-        int M = Integer.parseInt(NM[1]);
+        int dnaCount = Integer.parseInt(NM[0]);
+        int sequenceLength = Integer.parseInt(NM[1]);
 
-        char[][] DNAs = new char[N][M];
+        char[][] dnaSequences = new char[dnaCount][sequenceLength];
 
-        for (int i = 0; i < N; i++) {
-            DNAs[i] = br.readLine().toCharArray();
+        for (int i = 0; i < dnaCount; i++) {
+            dnaSequences[i] = br.readLine().toCharArray();
         }
 
-        // ACGT
-        int hd = 0; // Hamming Distance
-        for (int j = 0; j < M; j++) {
-            int[] countList = new int[30];
-            for (int i = 0; i < N; i++) {
-                countList[(int) DNAs[i][j] - 65]++;
-            }
+        // // 결과를 저장할 StringBuilder와 해밍 거리 합
+        StringBuilder consensusDna = new StringBuilder();
+        int totalHammingDistance = 0; // Hamming Distance
 
-            // 최대 빈도수 찾기
-            int max = 0;
-            for (int i = 0; i < 30; i++) {
-                if (countList[i] > max) {
-                    max = countList[i]; // 최대 빈도수 저장
+        // 각 열에서 최빈 문자 계산
+        for (int col = 0; col < sequenceLength; col++) {
+            int[] nucleotideCounts = new int[4]; // A, C, G, T
+            for (int row = 0; row < dnaCount; row++) {
+                switch (dnaSequences[row][col]) {
+                    case 'A': nucleotideCounts[0]++; break;
+                    case 'C': nucleotideCounts[1]++; break;
+                    case 'G': nucleotideCounts[2]++; break;
+                    case 'T': nucleotideCounts[3]++; break;
                 }
             }
 
-            // 최대 빈도수 인덱스 문자로 변환하여 출력(사전순으로 제일 빠른 것을 출력)
-            for (int i = 0; i < 30; i++) {
-                if (countList[i] == max) {
-                    System.out.print((char) (i + 65));
-                    hd += (N - countList[i]);
-                    break;
+            // 최대 문자 결정 (사진순 우선)
+            int maxCount = 0;
+            char selectedNucleotide = 'A';
+            char[] nucleotides = {'A', 'C', 'G', 'T'};
+            for (int i = 0; i < 4; i++) {
+                if (nucleotideCounts[i] > maxCount) {
+                    maxCount = nucleotideCounts[i]; // 최대 빈도수 저장
+                    selectedNucleotide = nucleotides[i];
                 }
             }
+
+            // 선택된 문자 추가 및 해밍 거리 누적합
+            consensusDna.append(selectedNucleotide);
+            totalHammingDistance += (dnaCount - maxCount);
         }
-        System.out.printf("\n%d", hd);
+
+        // 결과 출력
+        bw.write(consensusDna.toString()); // dna 출력
+        bw.newLine();
+        bw.write(String.valueOf(totalHammingDistance)); // 해밍 거리 출력
+        bw.newLine();
+
+        // 버퍼 지우기 및 종료
+        bw.flush();
+        bw.close();
     }
 }
