@@ -1,53 +1,60 @@
-import java.io.*;
-import java.util.*;
+import java.io.BufferedReader;
+import java.io.IOException;
+import java.io.InputStreamReader;
+import java.util.HashSet;
+import java.util.Set;
+import java.util.StringTokenizer;
 
 public class Main {
     public static void main(String[] args) throws IOException {
         BufferedReader br = new BufferedReader(new InputStreamReader(System.in));
-        StringBuilder sb = new StringBuilder();
 
-        // 시간 입력 받기
-        StringTokenizer st = new StringTokenizer(br.readLine(), " ");
-        String[] startMeetString = st.nextToken().split(":");
-        String[] endMeetString = st.nextToken().split(":");
-        String[] endStreamString = st.nextToken().split(":");
+        // 시간 정보 입력 받기
+        String[] times = br.readLine().split(" ");
+        String startMeet = times[0]; // 개강총회 시작 시간
+        String endMeet = times[1];   // 개강총회 종료 시간
+        String endStream = times[2]; // 스트리밍 종료 시간
 
-        int startMeet = timeToMin(startMeetString[0], startMeetString[1]);
-        int endMeet = timeToMin(endMeetString[0], endMeetString[1]);
-        int endStream = timeToMin(endStreamString[0], endStreamString[1]);
+        // 출석 확인을 위한 자료구조
+        Set<String> attendeesBefore = new HashSet<>();  // 입장 확인용
+        Set<String> attendeesAfter = new HashSet<>();   // 퇴장 확인용
+        Set<String> attendeesAll = new HashSet<>();     // 모든 참가자 기록
 
-        // 정답을 구하기 변수 생성
-        int ans = 0;
         String line = null;
-        HashSet<String> attendees = new HashSet<>();
 
         // 채팅 기록 입력 받기
         while ((line = br.readLine()) != null) {
-            st = new StringTokenizer(line, " ");
-            String[] charTimeString = st.nextToken().split(":");
-            String nickname = st.nextToken();
+            StringTokenizer st = new StringTokenizer(line);
+            String chatTime = st.nextToken(); // 채팅 시간
+            String nickname = st.nextToken(); // 사용자 닉네임
 
-            int chatTime = timeToMin(charTimeString[0], charTimeString[1]);
+            attendeesAll.add(nickname); // 모든 사용자 저장
 
-            // 시간 내에 채팅을 쳤다면 기록
-            if (chatTime <= startMeet) {
-                // 중복을 방지할 수 있는 HashSet(집합)을 사용해서 기록
-                attendees.add(nickname);
-                // 퇴장 시간 내에 채팅을 쳤다면 출석표에 있는지 확인
-            } else if (chatTime >= endMeet && chatTime <= endStream && attendees.contains(nickname)) {
-                attendees.remove(nickname); // 중복 체크 방지를 위해 제거
-                ans++; // +1
+            // 입장 시간 기준 체크
+            // String.compareTo()
+            // HH:MM 형식에서는 시간과 분이 두 자리로 고정되어 있기 때문에,
+            // compareTo() 메소드를 사용할 수 있다
+            //      "22:00".compareTo("22:30") -> 음수를 반환 = 22:00 이 22:30 보다 앞선다는 의미
+            // 채팅 시간이 시작 시간과 같거나 이전이라면
+            if (chatTime.compareTo(startMeet) <= 0) {
+                attendeesBefore.add(nickname);
+            }
+            // 퇴장 시간 기준 체크
+            // 채팅 시간이 개강총회 종료 시간과 같거나 이후이고, 종료시간과 같거나 이전이라면
+            else if (chatTime.compareTo(endMeet) >= 0 && chatTime.compareTo(endStream) <= 0) {
+                attendeesAfter.add(nickname);
             }
         }
 
+        // 입장 + 퇴장 모두 확인된 사용자 카운트
+        int ans = 0;
+        for (String nickname : attendeesAll) {
+            if (attendeesBefore.contains(nickname) && attendeesAfter.contains(nickname)) {
+                ans++;
+            }
+        }
+
+        // 정답 출력
         System.out.println(ans);
-
-    }
-
-    // 시간을 분으로 변환하는 함수
-    private static int timeToMin(String hourString, String minString) {
-        int hour = Integer.parseInt(hourString);
-        int min = Integer.parseInt(minString);
-        return hour * 60 + min;
     }
 }
