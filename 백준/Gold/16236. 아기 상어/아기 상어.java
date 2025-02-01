@@ -77,7 +77,7 @@ class BabyShark {
 public class Main {
     static BabyShark bs;
     static int N;
-    static List<Fish> fishes;
+    static PriorityQueue<Fish> fishes;
     static int[] di = {1, -1, 0, 0}, dj = {0, 0, 1, -1};
     static int[][] map;
 
@@ -125,7 +125,11 @@ public class Main {
         queue.offer(new int[]{bs.i, bs.j, 0}); // 출발위치의 좌표와 거리 0 저장
         visited[bs.i][bs.j] = true;
 
-        fishes = new ArrayList<>(); // 찾은 물고기를 저장
+        fishes = new PriorityQueue<>((f1, f2) -> {
+            if (f1.distance != f2.distance) return f1.distance - f2.distance; // 거리 오름차순 정렬
+            if (f1.i != f2.i) return f1.i - f2.i; // 윗쪽의 물고기를 반환
+            return f1.j - f2.j; // 왼쪽의 물고기를 반환
+        }); // 찾은 물고기를 저장
 
         while (!queue.isEmpty()) {
             int[] current = queue.poll();
@@ -135,7 +139,7 @@ public class Main {
 
             // 물고기 발견
             if (map[i][j] > 0 && map[i][j] < bs.size) {
-                fishes.add(new Fish(i, j, dist));
+                fishes.offer(new Fish(i, j, dist));
             }
 
             for (int k = 0; k < 4; k++) {
@@ -153,13 +157,7 @@ public class Main {
             return null; // 없으면 null 반환
         }
 
-        fishes.sort((f1, f2) -> {
-            if (f1.distance != f2.distance) return f1.distance - f2.distance; // 거리 오름차순 정렬
-            if (f1.i != f2.i) return f1.i - f2.i; // 윗쪽의 물고기를 반환
-            return f1.j - f2.j; // 왼쪽의 물고기를 반환
-        });
-
-        return fishes.get(0); // 오름차순 정렬된 가장 앞의 물고기를 반환
+        return fishes.poll(); // 오름차순 정렬된 가장 앞의 물고기를 반환
 
     }
 
