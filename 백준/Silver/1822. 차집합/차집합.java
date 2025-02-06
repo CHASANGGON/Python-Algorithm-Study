@@ -31,37 +31,42 @@ public class Main {
 
         // 정렬
         Arrays.sort(setA);
-        Arrays.sort(setB);
 
         // A - B
-        StringBuilder sb = new StringBuilder();
         int cnt = 0;
-        for (i = 0; i < A; i++) {
+        boolean[] tfA = new boolean[A];
+        for (i = 0; i < B; i++) {
             left = 0;
-            right = B - 1;
+            right = A - 1;
             isFind = false;
 
             while (left <= right) {
                 mid = (left + right) / 2;
-                if (setA[i] == setB[mid]) {
+                if (setB[i] == setA[mid]) {
                     isFind = true;
+                    tfA[mid] = true;
                     break;
-                } else if (setA[i] < setB[mid]) {
+                } else if (setB[i] < setA[mid]) {
                     right = mid - 1;
                 } else {
                     left = mid + 1;
                 }
             }
 
-            if (!isFind) {
-                sb.append(setA[i]).append(" ");
+            if (isFind) {
                 cnt++;
             }
         }
 
         // 출력
-        System.out.println(cnt); // 크기
-        if (cnt > 0) {
+        System.out.println(A - cnt); // 크기
+        StringBuilder sb = new StringBuilder();
+        if (A - cnt > 0) {
+            for (i = 0; i < A; i++) { // 집합 A의 원소
+                if (!tfA[i]) {
+                    sb.append(setA[i]).append(" ");
+                }
+            }
             System.out.println(sb.toString().trim());
         }
     }
