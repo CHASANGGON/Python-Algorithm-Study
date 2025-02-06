@@ -2,48 +2,66 @@ import java.io.*;
 import java.util.*;
 
 public class Main {
+    private static int i, left, right, mid;
+    private static StringTokenizer st;
+    private static boolean isFind;
+
     public static void main(String[] args) throws IOException {
-        // 빠른 입출력을 위한 BufferedReader
         BufferedReader br = new BufferedReader(new InputStreamReader(System.in));
-        StringTokenizer st = new StringTokenizer(br.readLine());
-        
-        // 집합 A와 B의 원소 개수 입력 받기
-        int nA = Integer.parseInt(st.nextToken());
-        int nB = Integer.parseInt(st.nextToken());
-        
+
+        // A, B 입력 받기
+        String[] AB = br.readLine().split(" ");
+        int A = Integer.parseInt(AB[0]);
+        int B = Integer.parseInt(AB[1]);
+
         // 집합 A 입력 받기
-        int[] A = new int[nA];
         st = new StringTokenizer(br.readLine());
-        for (int i = 0; i < nA; i++) {
-            A[i] = Integer.parseInt(st.nextToken());
+        int[] setA = new int[A];
+        for (i = 0; i < A; i++) {
+            setA[i] = Integer.parseInt(st.nextToken());
         }
-        
+
+
         // 집합 B 입력 받기
-        int[] B = new int[nB];
         st = new StringTokenizer(br.readLine());
-        for (int i = 0; i < nB; i++) {
-            B[i] = Integer.parseInt(st.nextToken());
+        int[] setB = new int[B];
+        for (i = 0; i < B; i++) {
+            setB[i] = Integer.parseInt(st.nextToken());
         }
-        
-        // 결과가 증가하는 순서로 출력되어야 하므로, A도 정렬해두자.
-        Arrays.sort(A);
-        // 이분 탐색을 위해 집합 B를 정렬한다.
-        Arrays.sort(B);
-        
-        // 집합 A의 각 원소에 대해, B에 존재하지 않는다면 결과에 추가
+
+        // 정렬
+        Arrays.sort(setA);
+        Arrays.sort(setB);
+
+        // A - B
         StringBuilder sb = new StringBuilder();
-        int count = 0;
-        for (int i = 0; i < nA; i++) {
-            // 만약 A[i]가 B에 없으면 (binarySearch의 반환값이 음수)
-            if (Arrays.binarySearch(B, A[i]) < 0) {
-                count++;
-                sb.append(A[i]).append(" ");
+        int cnt = 0;
+        for (i = 0; i < A; i++) {
+            left = 0;
+            right = B - 1;
+            isFind = false;
+
+            while (left <= right) {
+                mid = (left + right) / 2;
+                if (setA[i] == setB[mid]) {
+                    isFind = true;
+                    break;
+                } else if (setA[i] < setB[mid]) {
+                    right = mid - 1;
+                } else {
+                    left = mid + 1;
+                }
+            }
+
+            if (!isFind) {
+                sb.append(setA[i]).append(" ");
+                cnt++;
             }
         }
-        
-        // 결과 출력
-        System.out.println(count);
-        if (count > 0) {
+
+        // 출력
+        System.out.println(cnt); // 크기
+        if (cnt > 0) {
             System.out.println(sb.toString().trim());
         }
     }
