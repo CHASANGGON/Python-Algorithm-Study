@@ -24,16 +24,16 @@ public class Main {
         }
 
         // 행성 변환
-        converted = new String[M];
+        converted = new String[M]; // 변환한 행성을 저장할 배열
         for (int i = 0; i < M; i++) {
             convert(i, space[i]);
         }
 
         // 우주 쌍 찾기
         int ans = 0;
-        for (int i = 0; i < M - 1; i++) {
-            for (int j = i + 1; j < M; j++) {
-                if (converted[i].equals(converted[j])) ans++;
+        for (int s1 = 0; s1 < M - 1; s1++) {
+            for (int s2 = s1 + 1; s2 < M; s2++) {
+                if (converted[s1].equals(converted[s2])) ans++;
             }
         }
 
@@ -50,13 +50,15 @@ public class Main {
 
         // 해쉬맵에 저장
         for (int i = 0; i < N; i++) {
-            rankMap.put(sorted[i], i);
+            if (!rankMap.containsKey(planet[i])) { // 같은 크기의 행성은 같은 크기로 처리
+                rankMap.put(sorted[i], rankMap.size());
+            }
         }
 
         // 해쉬맵을 참고하여 랭크로 변환
         StringBuilder sb = new StringBuilder();
         for (int i = 0; i < N; i++) {
-            sb.append(rankMap.get(space[spaceNum][i]));
+            sb.append(rankMap.get(planet[i]));
         }
 
         // 변환이 끝난 문자열을 저장
