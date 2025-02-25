@@ -5,12 +5,11 @@ public class Main {
 
     public static void main(String[] args) throws IOException {
         BufferedReader br = new BufferedReader(new InputStreamReader(System.in));
-        BufferedWriter bw = new BufferedWriter(new OutputStreamWriter(System.out));
 
         // T 입력 받기
         int T = Integer.parseInt(br.readLine());
 
-        // DP
+        // DP 배열 생성
         int[] dp1 = new int[41], dp2 = new int[41];
         dp1[0] = 1;
         dp2[1] = 1;
@@ -19,13 +18,14 @@ public class Main {
             dp2[i] = dp2[i - 1] + dp2[i - 2];
         }
 
-        // 배열 입력: dp 배열에 누적합으로 바로 저장
+        // 테스트 케이스 입력 받기
+        StringBuilder sb = new StringBuilder();
         for (int i = 0; i < T; i++) {
             int N = Integer.parseInt(br.readLine());
-            bw.write(dp1[N] + " " + dp2[N] + "\n");
+            sb.append(dp1[N]).append(" ").append(dp2[N]).append("\n");
         }
 
-        bw.flush();
-        bw.close();
+        // 출력
+        System.out.println(sb);
     }
 }
