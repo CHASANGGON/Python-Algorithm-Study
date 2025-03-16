@@ -20,9 +20,7 @@ public class Main {
             for (int j = 1; j + i <= N; j++) {
                 dp[j + i] = Math.max(dp[j + i], dp[i] + dp[j]);
             }
-            for (int j = 1; i * j < N + 1; j++) {
-                dp[j * i] = Math.max(dp[j * i], dp[i] * j);
-            }
+
 
         }
 
