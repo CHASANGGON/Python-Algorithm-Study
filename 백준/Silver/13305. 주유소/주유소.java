@@ -24,15 +24,12 @@ public class Main {
         }
 
         // greedy
-        int disSum = 0, priceSum = 0, minPrice = Integer.MAX_VALUE;
-        for (int i = N - 2; i >= 0; i--) {
-            disSum += roads[i];
+        int priceSum = oils[0] * roads[0], disSum = roads[0], minPrice = oils[0]; // 초기값 설정
+        for (int i = 1; i < N - 1; i++) {
             if (oils[i] < minPrice) { // 최소 가격을 발견했다면
-                minPrice = oils[i];
-                priceSum = minPrice * disSum; // 현재의 오일을 기준으로 갱신
-            } else {
-                priceSum += oils[i] * roads[i]; // 비용 누적합
+                minPrice = oils[i]; // 가격 갱신
             }
+            priceSum += minPrice * roads[i]; // 비용 누적합
         }
 
         // 출력
