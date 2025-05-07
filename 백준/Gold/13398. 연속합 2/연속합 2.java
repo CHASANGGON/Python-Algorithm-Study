@@ -14,35 +14,20 @@ class Main {
         }
 
         // DP 배열 생성
-        // [0][j]: 수를 제거 하지 않은 경우 / [1][j]: 수를 제거 한 경우
         int[][] dp = new int[2][N + 1];
 
-        // dp
-        // 1. 수를 제거 하지 않은 경우의 최댓값
-        dp[0][1] = arr[1]; // 처음값으로 초기화
-        for (int j = 2; j <= N; j++) {
-            dp[0][j] = Math.max(dp[0][j - 1] + arr[j], arr[j]); // 누적합 vs 새로 시작
-        }
-
-        // 2. 수를 제거 하는 경우의 최댓값
-        int maxSum = arr[1];
+        // 초기화
+        dp[0][1] = arr[1];
         dp[1][1] = arr[1];
+
+        // dp
+        int maxSum = arr[1];
         for (int j = 2; j <= N; j++) {
-            if (arr[j] < 0) {
-                dp[1][j] = Math.max(dp[0][j - 1], dp[1][j - 1] + arr[j]);
-            } else {
-                dp[1][j] = Math.max(dp[0][j], dp[1][j - 1] + arr[j]); // 누적합 vs 새로 시작
-            }
+            dp[0][j] = Math.max(dp[0][j - 1] + arr[j], arr[j]); // 카데인 알고리즘
+            dp[1][j] = Math.max(dp[0][j - 1], dp[1][j - 1] + arr[j]); // 수를 하나 제거한 경우
+
             maxSum = Math.max(maxSum, Math.max(dp[0][j], dp[1][j]));
         }
-
-//        for (int i = 0; i < 2; i++) {
-//            for (int j = 1; j <= N; j++) {
-//                System.out.print(dp[i][j] + " ");
-//            }
-//            System.out.println();
-//        }
-
         System.out.println(maxSum);
     }
 }
