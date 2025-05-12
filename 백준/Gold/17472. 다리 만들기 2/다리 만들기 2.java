@@ -27,11 +27,13 @@ class Main {
             for (int j = 0; j < M; j++) {
                 int spcae = Integer.parseInt(st.nextToken());
                 if (spcae == 1) {
-                    islands.add(new int[]{i, j});
+                    islands.add(new int[]{i, j}); // 라벨링을 위해 섬의 좌표를 저장
                 }
                 map[i][j] = spcae;
             }
         }
+
+        // ------------------ 입력 ------------------
 
         // 1. 섬 라벨링
         labeling();
@@ -39,15 +41,15 @@ class Main {
         // 1. 라벨링 디버깅
         //print();
 
-        // 2. 섬 -> 섬 다리 연결(pq에 저장, 섬번호(from, to)와 길이를 저장)
-        bridgeCandidate = new PriorityQueue<>((a, b) -> Integer.compare(a[2], b[2])); // default값은 오름차순 정렬
-        registerBridgeCandidate(); // 가능한 다리 정보들을 후보로 등록
+        // 2. 섬1 -> 섬2 연결 가능한 다리들을 pq에 저장
+        bridgeCandidate = new PriorityQueue<>((a, b) -> Integer.compare(a[2], b[2])); // 3번째 인덱스 값을 기준으로 정렬
+        registerBridgeCandidate();
 
-        // 3. 짧은 순으로 연결
+        // 3. 짧은 순으로 연결(MST(Kruskal Algorithm: Union-Find를 사용))
         connect();
 
         // 4. 최종 검사 및 출력
-        if (islandCount - 1 == checkCount) { // MST는 "노드의 개수 - 1 = 간선의 개수"를 만족
+        if (islandCount - 1 == checkCount) { // Kruskal Algorithm에 의해 만들어진 MST는 "노드의 개수 - 1 = 간선의 개수"를 만족
             System.out.println(minLen);
         } else {
             System.out.println(-1);
@@ -67,18 +69,21 @@ class Main {
         int pa = find(a);
         int pb = find(b);
 
-        if (pa == pb) return false;
+        if (pa == pb) return true;
 
         parent[pb] = pa;
-        return true;
+        return false;
     }
 
+    // MST 만들기(Kruskal Algorithm)
     private static void connect() {
+        // Union-Find를 위해 parent 배열 세팅
         parent = new int[islandCount + 1];
         for (int i = 1; i <= islandCount; i++) {
             parent[i] = i;
         }
 
+        // MST
         while (!bridgeCandidate.isEmpty()) { // 길이가 짧은 다리부터 고려
             int[] info = bridgeCandidate.poll();
 
@@ -86,16 +91,16 @@ class Main {
             int to = info[1];
             int len = info[2];
 
-            if (from > to) { // from <= to 가 되도록 유지(우측 상단 반틈만 visited로 사용)
+            if (from > to) { // from <= to 가 되도록 유지(1번 섬을 최상단 부모로 설정)
                 int temp = from;
                 from = to;
                 to = temp;
             }
 
-            if (union(from, to)) { // from과 to의 부모가 다르다면 -> 연결되지 않은 것
-//                System.out.println("from " + from + " to " + to + " len " + len);
-                minLen += len;
-                checkCount++;
+            if (!union(from, to)) { // from과 to의 부모가 다르다면 -> 연결되지 않은 것(싸이클을 만들지 않음) -> 연결
+                // System.out.println("from " + from + " to " + to + " len " + len); // 디버깅용
+                minLen += len; // 최소 다리 길이 누적합
+                checkCount++; // 다리의 개수 카운트
             }
         }
     }
@@ -107,7 +112,6 @@ class Main {
             int j = info[1];
 
             int from = map[i][j];
-            int islandNum = map[i][j];
 
             // 네 방향에 대해서 다리를 이어보기
             for (int dir = 0; dir < 4; dir++) {
@@ -116,6 +120,7 @@ class Main {
                 int len = 0; // 다리의 길이
 
                 while (true) {
+                    // 해당 방향으로 다리를 계속 증가
                     ni += di[dir];
                     nj += dj[dir];
 
@@ -125,13 +130,14 @@ class Main {
                     // 바다를 만나면
                     if (map[ni][nj] == 0) {
                         len++; // 길이 증가
-                    } else { // 섬을 만났다면
-                        // 다른 섬이라면
-                        if (map[ni][nj] != islandNum && len >= 2) { // 길이 2이상인 다리만 연결
+                    // 섬을 만났다면
+                    } else { 
+                        // 다른 섬이고, 다리의 길이가 2 이상이라면
+                        if (map[ni][nj] != from && len >= 2) {
                             int to = map[ni][nj];
-                            bridgeCandidate.offer(new int[]{from, to, len}); // 후보에 등록
+                            bridgeCandidate.offer(new int[]{from, to, len}); // 다리 후보에 등록
                         }
-                        break; // 자기 섬을 다시 만나거나 길이가 1인 다리
+                        break; // 자기 섬을 다시 만나거나 길이가 1인 다리 -> 해당 방향 탐색 종료
                     }
                 }
             }
