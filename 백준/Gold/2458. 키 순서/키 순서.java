@@ -50,11 +50,13 @@ public class Main {
     }
 
     private static void dfs(int root, int now) {
+        // 다음 탐색
         for(int next: graph[now]) {
             if(!visited[next]) {
-                result[root]++;
-                result[next]++;
-                visited[next] = true;
+                result[root]++; // 나보다 큰 사람
+                result[next]++; // 나보다 작은 사람
+
+                visited[next] = true; // 방문 처리
                 dfs(root, next);
             }
         }
