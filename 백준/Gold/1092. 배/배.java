@@ -2,51 +2,71 @@ import java.io.*;
 import java.util.*;
 
 public class Main {
+    private static int N, M;
+    private static int[] crane;
+    private static List<Integer> boxes;
+
     public static void main(String[] args) throws IOException {
         BufferedReader br = new BufferedReader(new InputStreamReader(System.in));
 
-        int N = Integer.parseInt(br.readLine());
-        StringTokenizer st = new StringTokenizer(br.readLine());
+        // 크레인 입력
+        N = Integer.parseInt(br.readLine());
 
-        Integer[] crane = new Integer[N];
+        StringTokenizer st = new StringTokenizer(br.readLine());
+        crane = new int[N];
         for (int i = 0; i < N; i++) {
             crane[i] = Integer.parseInt(st.nextToken());
         }
 
-        int M = Integer.parseInt(br.readLine());
-        st = new StringTokenizer(br.readLine());
+        // 박스 입력
+        M = Integer.parseInt(br.readLine());
 
-        List<Integer> boxes = new ArrayList<>();
+        st = new StringTokenizer(br.readLine());
+        boxes = new ArrayList<>();
         for (int i = 0; i < M; i++) {
             boxes.add(Integer.parseInt(st.nextToken()));
         }
 
-        Arrays.sort(crane, Collections.reverseOrder()); // 내림차순
-        boxes.sort(Collections.reverseOrder());         // 내림차순
+        Arrays.sort(crane); // 크레인 오름차순 정렬
+        boxes.sort(Collections.reverseOrder()); // 박스 내림차순 정렬
 
-        // 제일 무거운 박스를 가장 센 크레인도 못 들면 불가능
-        if (boxes.get(0) > crane[0]) {
+        solve();
+    }
+
+    private static void solve() {
+
+
+        if (crane[N - 1] < boxes.get(0)) { // 제일 큰 크레인보다 박스가 무거우면 불가능
             System.out.println(-1);
             return;
         }
 
-        int time = 0;
-
+        int cnt = 0;
         while (!boxes.isEmpty()) {
-            int boxIdx = 0;
-            for (int i = 0; i < N;) {
-                if (boxIdx >= boxes.size()) break;
+            cnt++;
 
-                if (crane[i] >= boxes.get(boxIdx)) {
-                    boxes.remove(boxIdx); // 현재 크레인이 들 수 있는 박스 제거
-                    i++; // 다음 크레인
+            int size = boxes.size();
+
+            // 크레인으로 박스 제거
+            int craneIdx = N - 1;
+            int boxIdx = 0;
+            while (craneIdx >= 0 && boxIdx < boxes.size()) { // 크레인 한 개당
+
+                if (boxes.get(boxIdx) <= crane[craneIdx]) {
+                    boxes.remove(boxIdx);
+                    craneIdx--; // 현재 크레인 사용 완료
                 } else {
-                    boxIdx++; // 현재 박스를 다음 크레인에게 시도
+                    boxIdx++; // 현재 크레인 재사용, 다음 박스
                 }
             }
-            time++;
+
+            // 박스가 모두 제거됐다면 종료
+            if (boxes.isEmpty()) {
+                System.out.println(cnt);
+                return;
+            }
         }
 
-        System.out.println(time);
     }
+
 }
