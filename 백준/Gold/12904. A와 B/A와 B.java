@@ -1,11 +1,14 @@
 import java.io.*;
-import java.util.*;
+import java.util.LinkedList;
+import java.util.Queue;
 
 class Info {
+    int len;
     String str;
     boolean fOrB; // true는 정방향, false는 역방향
 
-    Info(String str, boolean fOrB) {
+    Info(int len, String str, boolean fOrB) {
+        this.len = len;
         this.str = str;
         this.fOrB = fOrB;
     }
@@ -25,21 +28,47 @@ public class Main {
         // A와 B를 추가하는 방법은 한 가지밖에 안 존재함
         // 그렇기에 경로는 한 가지고, 정답도 한 가지만 존재함!
         // 그래서 이 방식으로 풀 수 있는 것
-        while (T.length() != S.length()) {
-            if (T.charAt(T.length() - 1) == 'A') {
-                T = T.substring(0, T.length() - 1); // A는 바로 제거
+        Info info = new Info(T.length(), T, true); // 정방향이라고 가정
+        int len = S.length();
+
+        while (info.len != len) {
+            char lastChar;
+            if (info.fOrB) {
+                lastChar = info.str.charAt(info.len - 1);
             } else {
-                T = T.substring(0, T.length() - 1); // B제거(뒤집은 상태라서 젤 뒤에 있음)
-                StringBuilder sb = new StringBuilder();
-                for (int i = T.length() - 1; i >= 0; i--) {
-                    sb.append(T.charAt(i));
-                }
-                T = sb.toString();
+                lastChar = info.str.charAt(0);
             }
+
+
+            if (lastChar == 'A') { // A 제거
+                // 1. 정방향: 뒤에서 제거
+                if (info.fOrB) info.str = info.str.substring(0, info.len - 1);
+                    // 1. 역방향: 앞에서 제거
+                else info.str = info.str.substring(1, info.len);
+            } else {
+                // 1. 정방향: 뒤에서 제거
+                if (info.fOrB) info.str = info.str.substring(0, info.len - 1);
+                    // 1. 역방향: 앞에서 제거
+                else info.str = info.str.substring(1, info.len);
+
+                // 2. 방향 전환
+                info.fOrB = !info.fOrB;
+            }
+
+            info.len--; // 3. 길이 감소
+        }
+
+        // 방향 고려
+        if (!info.fOrB) {
+            StringBuilder sb = new StringBuilder();
+            for (int i = info.len - 1; i >= 0; i--) {
+                sb.append(info.str.charAt(i));
+            }
+            info.str = sb.toString();
         }
 
         // 출력
-        if(S.equals(T)) System.out.println(1);
+        if (S.equals(info.str)) System.out.println(1);
         else System.out.println(0);
 
     }
