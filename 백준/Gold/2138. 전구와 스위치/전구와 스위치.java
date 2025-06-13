@@ -2,7 +2,7 @@ import java.io.*;
 import java.util.*;
 
 public class Main {
-    private static int N, ans = 0;
+    private static int N;
     private static char[] from1, from2, to;
 
     public static void main(String[] args) throws IOException {
@@ -11,15 +11,14 @@ public class Main {
         // N 입력
         N = Integer.parseInt(br.readLine());
 
-        // 초기 전구 입력
+        // 배열 생성
         from1 = new char[N];
         from2 = new char[N];
 
+        // 초기 전구 입력
         String line = br.readLine();
-
         for (int i = 0; i < N; i++) {
-            from1[i] = line.charAt(i);
-            from2[i] = line.charAt(i);
+            from1[i] = from2[i] = line.charAt(i);
         }
 
         // 완성할 전구 입력
@@ -30,20 +29,16 @@ public class Main {
         }
 
         // greedy
-        int cnt1 = greedy(from1, 0);
-        toggle(from2, 0);
-        int cnt2 = greedy(from2, 1);
+        int cnt1 = greedy(from1, 0); // 첫 번째 전구
+
+        toggle(from2, 0); // 첫 번째 스위치를 누른 경우
+        int cnt2 = greedy(from2, 1); // 두 번째 전구
 
         // 출력
-        if (check(from1) && check(from2)) {
-            System.out.println(Math.min(cnt1, cnt2));
-        } else if (check(from1)) {
-            System.out.println(cnt1);
-        } else if (check(from2)) {
-            System.out.println(cnt2);
-        } else {
-            System.out.println(-1);
-        }
+        int ans = -1;
+        if (check(from1)) ans = cnt1;
+        if (check(from2)) ans = Math.min(cnt2, ans == -1 ? cnt2 : ans);
+        System.out.println(ans);
     }
 
     private static boolean check(char[] from) {
@@ -64,7 +59,6 @@ public class Main {
     }
 
     private static int greedy(char[] from, int cnt) {
-
         for (int i = 1; i < N; i++) {
             if (from[i - 1] != to[i - 1]) {
                 toggle(from, i);
