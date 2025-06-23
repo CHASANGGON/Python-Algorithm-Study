@@ -1,42 +1,41 @@
 import java.io.*;
-import java.sql.SQLOutput;
 import java.util.*;
 
 public class Main {
     public static void main(String[] args) throws IOException {
         BufferedReader br = new BufferedReader(new InputStreamReader(System.in));
 
-        // N 입력
-        int N = Integer.parseInt(br.readLine());
-        int[][] arr = new int[N][2];
+        int N = Integer.parseInt(br.readLine()); // 게이트 수 입력
+
+        // 게이트 생성 및 초기화
+        int[][] problems = new int[N][2];
         for (int i = 0; i < N; i++) {
             StringTokenizer st = new StringTokenizer(br.readLine());
-            arr[i][0] = Integer.parseInt(st.nextToken());
-            arr[i][1] = Integer.parseInt(st.nextToken());
+            problems[i][0] = Integer.parseInt(st.nextToken()); // 데드라인
+            problems[i][1] = Integer.parseInt(st.nextToken()); // 컵라면 수
         }
 
-        // 데드라인 오름차순 정렬, 보상 내림차순 정렬
-        Arrays.sort(arr, (a, b) -> {
-            if (a[0] == b[0]) {
-                return b[1] - a[1]; // 보상 내림차순
-            }
-            return a[0] - b[0]; // 데드라인 오름차순
+        Arrays.sort(problems, (a,b) -> { // 데드라인 오름차순 정렬
+            return a[0] - b[0];
         });
 
         // greedy
         PriorityQueue<Integer> pq = new PriorityQueue<>();
-        for (int[] cur : arr) { // 모든 숙제를 살펴보면서, 보상이 가장 큰 것들만 남기기
-            pq.offer(cur[1]); // 보상을 추가
-            if(pq.size() > cur[0]) { // 현재 숙제의 마감기한보다 pq가 크다면
-                pq.poll(); // 가장 작은 보상을 제거
+        for(int problemIndex = 0; problemIndex < problems.length; problemIndex++) {
+            // 데드라인 만큼의 숙제를 고려
+            if(pq.size() < problems[problemIndex][0]) { // 고려중인 숙제의 개수가 더 적다면
+                pq.offer(problems[problemIndex][1]); // 일단 컵라면 추가
+            } else if(pq.peek() < problems[problemIndex][1]) { // 현재 컵라면이 더 많다면
+                pq.poll(); // 기존 컵라면 제거
+                pq.offer(problems[problemIndex][1]);
             }
         }
 
         // 출력
-        int ans = 0;
-        for (int compensation : pq) {
-            ans += compensation;
+        int cupNoodleSum = 0;
+        for (Integer cupNoodle : pq) {
+            cupNoodleSum += cupNoodle;
         }
-        System.out.println(ans);
+        System.out.println(cupNoodleSum);
     }
 }
