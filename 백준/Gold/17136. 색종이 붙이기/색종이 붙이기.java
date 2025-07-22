@@ -27,19 +27,7 @@ public class Main {
             System.out.println(minCount);
         }
     }
-
-    private static boolean check() {
-        for (int i = 0; i < 10; i++) {
-            for (int j = 0; j < 10; j++) {
-                if (arr[i][j] == 1) {
-                    return false;
-                }
-            }
-        }
-
-        return true;
-    }
-
+    
     // 복구
     private static void unCover(int row, int col, int size) {
         for (int i = row; i < row + size; i++) {
@@ -82,7 +70,16 @@ public class Main {
         }
 
         // 1-2. 기저 조건 2
-        if (row == 10 && check()) {
+        if (row == 10) {
+            // 모두 0으로 구성돼 있는지 check 하지 않아도 됨
+            // 0을 만난 경우에는 계속 재귀호출이 됨
+            // 1을 만난 경우에는 size 별로 덮을 수 있을 때만 재귀호출이 됨
+            
+            // 따라서 재귀호출을 통해서 기저조건에 도달한 것이라면
+            // 0만 만났거나,
+            // 1을 만나서 지우면서 도달한 경우
+            
+            // 그렇기 때문에 이 if 문에 들어온 순간 이미 배열은 0으로만 이루어진 상태
             minCount = Math.min(minCount, count);
             return;
         }
